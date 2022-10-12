@@ -331,7 +331,7 @@ class Plot:
         if window_size == 1:
             return interval
         window = np.ones(int(window_size)) / float(window_size)
-        return np.convolve(interval, window, 'same')
+        return pd.Series(np.convolve(interval, window, 'valid'))
 
     def plotSD(self, data, yInput, ax1):
         """Plots the mean and the standard deviation of several files"""
@@ -384,8 +384,8 @@ class Plot:
         # finally, makes the plot
         for i in range(len(df)):
             if int(self.w) > 1:
-                df[i]['std'] = self.moving_average(df[i]['mean'], self.w)
-                df[i]['mean'] = self.moving_average(df[i]['std'], self.w)
+                df[i]['std'] = self.moving_average(df[i]['std'], self.w)
+                df[i]['mean'] = self.moving_average(df[i]['mean'], self.w)
         for vals in df:
             color = next(colors)
 
